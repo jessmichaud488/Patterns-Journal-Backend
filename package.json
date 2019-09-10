@@ -1,0 +1,25 @@
+{
+  "name": "patterns-journal-backend",
+  "version": "1.0.0",
+  "description": "Backend for patterns journal",
+  "main": "api.js",
+  "scripts": {
+    "test": "react-scripts test",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "\u0016https://github.com/jessmichaud488/Patterns-Journal-Backend.git"
+  },
+  "keywords": [
+    "Psychology",
+    "Mental",
+    "Health",
+    "Journaling",
+    "Sleep",
+    "Therapy",
+    "Management"
+  ],
+  "author": "Jessica Michaud",
+  "license": "ISC"
+}
