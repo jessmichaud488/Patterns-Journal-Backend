@@ -6,10 +6,10 @@ const morgan = require('morgan');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 
-const appRouter = require('./routers/AppRouter');
-const entryRouter = require('./routers/entryRouter');
-const userRouter = require('./routers/userRouter');
-const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
+//const appRouter = require('./routers/AppRouter');
+const entryRouter = require('./src/routers/entryRouter');
+const userRouter = require('./src/routers/userRouter');
+const { router: authRouter, localStrategy, jwtStrategy } = require('./src/auth');
 
 mongoose.Promise = global.Promise;
 
@@ -22,9 +22,10 @@ passport.use(jwtStrategy);
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
-app.use('/AppRouter', appRouter);
+//app.use('/AppRouter', appRouter);
 app.use('/entryRouter', entryRouter);
 app.use('/userRouter', userRouter);
+app.use('/auth', authRouter);
 
 app.use(morgan('common'));
 
@@ -60,7 +61,7 @@ let server;
 function runServer() {
   return new Promise((resolve, reject) => {
     mongoose.set('debug', true);
-    mongoose.connect(DATABASE_URL, { useNewUrlParser: true }, err => {
+    mongoose.connect(DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true }, err => {
       if (err) {
         return reject(err);
       }

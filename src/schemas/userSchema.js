@@ -39,7 +39,6 @@ var userSchema = mongoose.Schema({
 });
 
 userSchema.methods.serialize = function() {
-  console.log("User schema serialized method = " + this)
   return {
     email: this.email,
     id: this._id,

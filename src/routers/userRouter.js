@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 //use ES6 promises
 mongoose.Promise = global.Promise;
 
-const {User} = require('..src/schemas/userSchema');
+const {User} = require('../schemas/userSchema');
 const internalMsg = 'Internal server error occured.';
 
 //user profiles whether with queries or none
@@ -50,7 +50,6 @@ router.get('/', (req,res)=>{
 	userPromise
 	.then(data => res.status(200).json(data))
 	.catch(err => {
-		console.log(err);
 		res.status(500).send(internalMsg);
 	});
 });
@@ -60,7 +59,6 @@ router.get('/:id', (req, res) => {
 	User.findById(req.params.id)
 	.then(data => res.status(200).json(data))
 	.catch(err => {
-		console.log(err);
 		res.status(500).send(internalMsg);
 	});
 });
@@ -68,8 +66,7 @@ router.get('/:id', (req, res) => {
 //create a new user profile/account
 router.post('/', (req, res)=>{
 	//store the required properties in an array
-  console.log(req.body)
-	const requiredFields = 'email', 'userName', 'password'];
+	const requiredFields = ['email', 'userName', 'password'];
 	//use for loop to check if all required properties are in the req body
 	for(let i=0; i<requiredFields.length; i++){
 		const field = requiredFields[i];
@@ -85,7 +82,6 @@ router.post('/', (req, res)=>{
   return User.find({userName: req.body.userName})
     .countDocuments()
     .then(count => {
-    console.log(count);
       if (count > 0) {
         // There is an existing user with the same username
         return Promise.reject({
@@ -99,7 +95,6 @@ router.post('/', (req, res)=>{
       return User.hashPassword(req.body.password);
   })
     .then (hash => {
-      console.log('the password equals', hash)
          return	 User.create({
 		email: req.body.email,
 		userName: req.body.userName,
@@ -146,7 +141,6 @@ router.put('/:id', (req, res)=>{
 			.then(data => res.status(200).json(data));
 	})
 	.catch(err => {
-		console.log(err);
 		res.status(400).send(internalMsg)
 	});
 });
@@ -156,7 +150,6 @@ router.delete('/:id', (req,res)=>{
 	User.findByIdAndUpdate(req.params.id, {$set: {isActive: "false"}})
 	.then(result=> res.status(204).end())
 	.catch(err => {
-		console.log(err);
 		res.status(400).send(internalMsg)
 	});
 });

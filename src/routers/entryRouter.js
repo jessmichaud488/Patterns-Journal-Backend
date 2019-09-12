@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 //use ES6 promises
 mongoose.Promise = global.Promise;
 
-const {Entry} = require('./Schemas/entrySchema');
+const {Entry} = require('../schemas/entrySchema');
 const internalMsg = 'Internal server error occured.';
 
 //view multiple entries whether there is query or not
@@ -52,7 +52,6 @@ router.get('/:id', (req, res) => {
 	Entry.findById(req.params.id)
 	.then(data => res.status(200).json(data))
 	.catch(err => {
-		console.log(err);
 		res.status(500).send(internalMsg);
 	});
 });
@@ -60,9 +59,8 @@ router.get('/:id', (req, res) => {
 //View a single title by user
 router.get('/:id/:title', (req, res) => {
 	Entry.find({title: req.params.title, id: req.params.id})
-	.then(data => {console.log(data[0].titles); res.status(200).json(data);})
+	.then(data => res.status(200).json(data))
 	.catch(err => {
-		console.log(err);
 		res.status(500).send(internalMsg);
 	});
 });

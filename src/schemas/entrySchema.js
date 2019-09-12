@@ -4,7 +4,7 @@ mongoose.Promise = global.Promise;
 
 var entrySchema = mongoose.Schema({
 	title: {
-		type: Schema.Types.ObjectId,
+		type: mongoose.Schema.Types.ObjectId,
 		required: true
 	},
 
