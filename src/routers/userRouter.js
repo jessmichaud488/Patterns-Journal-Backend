@@ -137,14 +137,21 @@ router.put('/:id', (req, res)=>{
 	}
 	//update the database by finding the id first using the id from req
 	//then set the data to update
-	User.findByIdAndUpdate(req.params.id, {$set: toUpdate}, {upsert: true})
-	.then(()=>{
-		return User.findById(req.params.id)
-			.then(data => res.status(200).json(data));
+	User.hashPassword(req.body.password)
+	.then(hash => {
+		console.log('hash=', hash);
+		User.findByIdAndUpdate(req.params.id, {$set: {password: hash}}, {upsert: true})
+		.then(user=>{
+			if (!user) res.status(404).send('User not found');
+			return User.findById(req.params.id)
+				.then(data => res.status(200).json(data));
+		}
+		)
+		.catch(err => {
+			console.log('Error =', err);
+			res.status(400).send(err)
+		})
 	})
-	.catch(err => {
-		res.status(400).send(internalMsg)
-	});
 });
 
 //disable a specific user profile/account by setting isActive to false
