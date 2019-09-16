@@ -4,8 +4,10 @@ const mongoose = require('mongoose');
 const moment = require('moment');
 const bodyParser = require('body-parser');
 
+
 //use ES6 promises
 mongoose.Promise = global.Promise;
+
 
 const {User} = require('../schemas/userSchema');
 const internalMsg = 'Internal server error occured.';
@@ -135,7 +137,7 @@ router.put('/:id', (req, res)=>{
 	}
 	//update the database by finding the id first using the id from req
 	//then set the data to update
-	User.findByIdAndUpdate(req.params.id, {$set: toUpdate})
+	User.findByIdAndUpdate(req.params.id, {$set: toUpdate}, {upsert: true})
 	.then(()=>{
 		return User.findById(req.params.id)
 			.then(data => res.status(200).json(data));
@@ -147,7 +149,7 @@ router.put('/:id', (req, res)=>{
 
 //disable a specific user profile/account by setting isActive to false
 router.delete('/:id', (req,res)=>{
-	User.findByIdAndUpdate(req.params.id, {$set: {isActive: "false"}})
+	User.findByIdAndUpdate(req.params.id, {$set: {isActive: "false"}}, {upsert: true})
 	.then(result=> res.status(204).end())
 	.catch(err => {
 		res.status(400).send(internalMsg)
