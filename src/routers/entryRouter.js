@@ -47,22 +47,61 @@ router.get('/', (req,res)=>{
 	.catch(err => res.status(500).send(err));
 });
 
-//View a single user account/profile
-router.get('/:id', (req, res) => {
-	Entry.findById(req.params.id)
+//View entries by title
+router.get('/:title', (req, res) => {
+	Entry.find({title: req.params.title})
 	.then(data => res.status(200).json(data))
 	.catch(err => {
 		res.status(500).send(internalMsg);
 	});
 });
 
-//View a single title by user
-router.get('/:id/:title', (req, res) => {
-	Entry.find({title: req.params.title, id: req.params.id})
+//View entries by mood(entryType)
+router.get('/:entryType', (req, res) => {
+	Entry.find({entryType: req.params.entryType})
 	.then(data => res.status(200).json(data))
 	.catch(err => {
 		res.status(500).send(internalMsg);
 	});
 });
+
+//Post new entry
+router.post('/', (req, res)=>{
+	const requiredFields = ['title', 'entry', 'date', 'entryType'];
+		for(let i=0; i < requiredFields.length; i++){
+    		const field = requiredFields[i];
+    		if(!(field in req.body)){
+    			const message = `Missing ${field} in request body.`;
+				console.error(message);
+				return res.send(message);
+    		}
+    	}
+    //check entry collection first
+    Entry.findOne({title: req.body.title})
+    .then(data => {
+    	//if no document was found with matching title, look in the entry collection
+    	if(data === null && typeof(data) === 'object'){
+        	return Entry.findOne({title: req.body.title})
+        			.then(data => {
+        				if(data === null && typeof(data) === 'object'){
+        					res.send(message);
+        				}
+        					else{
+        						res.send(message);
+        					}
+        			});
+    	}
+
+	router.delete('/', (req, res) => {
+        Entry.remove({
+            _id: req.params.bear_id
+        }, function(err, entry) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'Successfully deleted' });
+        });
+    });
+
 
 module.exports = router;
