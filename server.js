@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const passport = require('passport');
 const bodyParser = require('body-parser');
+var cors = require('cors');
 
 //const appRouter = require('./routers/AppRouter');
 const entryRouter = require('./src/routers/entryRouter');
@@ -22,13 +23,8 @@ passport.use(jwtStrategy);
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
-//app.use('/AppRouter', appRouter);
-app.use('/entryRouter', entryRouter);
-app.use('/userRouter', userRouter);
-app.use('/auth', authRouter);
-
 app.use(morgan('common'));
-
+app.use(cors());
 
 // CORS
 app.use(function (req, res, next) {
@@ -40,6 +36,11 @@ app.use(function (req, res, next) {
   }
   next();
 });
+
+//app.use('/AppRouter', appRouter);
+app.use('/entryRouter', entryRouter);
+app.use('/userRouter', userRouter);
+app.use('/auth', authRouter);
 
 // A protected endpoint which needs a valid JWT to access it
 /*app.get('/api/protected', jwtAuth, (req, res) => {

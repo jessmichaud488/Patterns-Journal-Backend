@@ -156,10 +156,13 @@ router.put('/:id', (req, res)=>{
 
 //disable a specific user profile/account by setting isActive to false
 router.delete('/:id', (req,res)=>{
-	User.findByIdAndUpdate(req.params.id, {$set: {isActive: "false"}}, {upsert: true})
-	.then(result=> res.status(204).end())
-	.catch(err => {
-		res.status(400).send(internalMsg)
+	User.findByIdAndRemove(req.params.id, (err, user) => {
+		if (err) return res.status(500).send(err);
+		const response = {
+			message: "user successfully deleted",
+			id: user.id
+		};
+		return res.status(200).send(response);
 	});
 });
 

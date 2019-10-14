@@ -12,44 +12,18 @@ const internalMsg = 'Internal server error occured.';
 
 //view multiple entries whether there is query or not
 router.get('/', (req,res)=>{
-	const today = new Date();
-	let finalDate = new Date();
-	finalDate.setDate(today.getDate() + 6);
-	//store the values of the query
-	const active = req.query.active;
-	let entryPromise;
-	//if query is undefined, get all the entries
-	if(typeof(active) === "undefined"){
-		entryPromise = Entry.find().populate('title');
-	}
-	//if the query has a value
-	else if(typeof(active) === "string"){
-		//if value is true, show entries that are active
-		if(active === "true"){
-			entryPromise = Entry.find({endingDate: {$gte: today}, startingDate: {$lte: finalDate}}).populate('title');
-		}
-		//else show the past entries
-		else if(active === "false") {
-			entryPromise = Entry.find({endingDate: {$lt: today}}).populate('title');
-		}
-		//everything else
-		else {
-		const message = 'Query value unexpected.';
-		return res.status(400).send(message);
-		}
-	}
-	else{
-		const message = 'Query value unexpected.';
-		return res.status(400).send(message);
-	}
-	entryPromise
+	console.log('made it!');
+	Entry.find()
 	.then(data => res.status(200).json(data))
-	.catch(err => res.status(500).send(err));
+	.catch(err => {
+		res.status(500).send(internalMsg);
+	});
 });
 
-//View entries by title
-router.get('/:title', (req, res) => {
-	Entry.find({title: req.params.title})
+//View entries by id
+router.get('/:id', (req, res) => {
+	console.log('find get by id');
+	Entry.findById(req.params.id)
 	.then(data => res.status(200).json(data))
 	.catch(err => {
 		res.status(500).send(internalMsg);
@@ -57,7 +31,8 @@ router.get('/:title', (req, res) => {
 });
 
 //View entries by mood(entryType)
-router.get('/:entryType', (req, res) => {
+router.get('/entryType/:entryType', (req, res) => {
+	console.log('find by entry type');
 	Entry.find({entryType: req.params.entryType})
 	.then(data => res.status(200).json(data))
 	.catch(err => {
@@ -77,31 +52,51 @@ router.post('/', (req, res)=>{
     		}
     	}
     //check entry collection first
-    Entry.findOne({title: req.body.title})
-    .then(data => {
-    	//if no document was found with matching title, look in the entry collection
-    	if(data === null && typeof(data) === 'object'){
-        	return Entry.findOne({title: req.body.title})
-        			.then(data => {
-        				if(data === null && typeof(data) === 'object'){
-        					res.send(message);
-        				}
-        					else{
-        						res.send(message);
-        					}
-        			});
-    	}
-
-	router.delete('/', (req, res) => {
-        Entry.remove({
-            _id: req.params.bear_id
-        }, function(err, entry) {
-            if (err)
-                res.send(err);
-
-            res.json({ message: 'Successfully deleted' });
+	Entry.findOne({title: req.body.title})
+	.countDocuments()
+    .then(count => {
+      if (count > 0) {
+        // There is an existing user with the same entry
+        return Promise.reject({
+          code: 422,
+          reason: 'ValidationError',
+          message: 'Entry already exists',
+          location: 'entry'
         });
-    });
+      }
+		return Entry.create({
+		   title: req.body.title,
+		   entry: req.body.entry,
+		   date: req.body.date,
+		   entryType: req.body.entryType,
+		   hoursSlept: req.body.hoursSlept,
+		   createdAt: req.body.createdAt,
+		   intensityLevel: req.body.intensityLevel
+	   })
+	})
+	.then(newEntry => res.status(201).json(newEntry))
+  .catch(err => {
+      // Forward validation errors on to the client, otherwise give a 500
+	  // error because something unexpected has happened
+	  console.log('err =', err);
+      if (err.reason === 'ValidationError') {
+        return res.status(err.code).json(err);
+      }
+      res.status(500).json({code: 500, message: 'Internal server error'})
+})
+});
+
+router.delete('/:id', (req, res) => {
+	console.log('made it to delete');
+	Entry.findByIdAndRemove(req.params.id, (err, entry) => {
+		if (err) return res.status(500).send(err);
+		const response = {
+			message: "Entry successfully deleted",
+			entry: entry.id
+		};
+		return res.status(200).send(response);
+	});
+});
 
 
-module.exports = router;
+module.exports = router
