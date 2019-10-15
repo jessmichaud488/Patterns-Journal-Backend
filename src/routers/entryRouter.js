@@ -30,19 +30,9 @@ router.get('/:id', (req, res) => {
 	});
 });
 
-//View entries by mood(entryType)
-router.get('/entryType/:entryType', (req, res) => {
-	console.log('find by entry type');
-	Entry.find({entryType: req.params.entryType})
-	.then(data => res.status(200).json(data))
-	.catch(err => {
-		res.status(500).send(internalMsg);
-	});
-});
-
 //Post new entry
 router.post('/', (req, res)=>{
-	const requiredFields = ['title', 'entry', 'date', 'entryType'];
+	const requiredFields = ['title', 'date', 'entry', 'sleep', 'mood', 'emotions'];
 		for(let i=0; i < requiredFields.length; i++){
     		const field = requiredFields[i];
     		if(!(field in req.body)){
@@ -68,10 +58,9 @@ router.post('/', (req, res)=>{
 		   title: req.body.title,
 		   entry: req.body.entry,
 		   date: req.body.date,
-		   entryType: req.body.entryType,
-		   hoursSlept: req.body.hoursSlept,
-		   createdAt: req.body.createdAt,
-		   intensityLevel: req.body.intensityLevel
+		   sleep: req.body.sleep,
+		   mood: req.body.mood,
+		   emotions: req.body.emotions
 	   })
 	})
 	.then(newEntry => res.status(201).json(newEntry))
@@ -84,6 +73,40 @@ router.post('/', (req, res)=>{
       }
       res.status(500).json({code: 500, message: 'Internal server error'})
 })
+});
+
+router.put('/:id', (req, res)=>{
+	// ensure that the id in the request path and the one in request body match
+	if(!(req.params.id === req.body.id)){
+		const message = `The request path ID ${req.params.id} and request body ID ${req.body.id} should match.`;
+		console.error(message);
+		return res.status(400).send(message);
+	}
+	//we need something to hold what the updated data should be
+	const toUpdate = {};
+	//properties that client can update
+	const canBeUpdated = ['title', 'date', 'entry', 'sleep', 'mood', 'emotions'];
+	//loop through the properties that can be updated
+	//check if client sent in updated data for those
+	for(let i=0; i<canBeUpdated.length;i++){
+		const field = canBeUpdated[i];
+		//if the property is in the req body and it is not null
+		if(field in req.body && req.body.field !== null){
+			//start adding the properties to the toUpdate object
+			toUpdate[field] = req.body[field];
+		}
+	}
+	//update the database by finding the id first using the id from req
+	//then set the data to update
+	User.findByIdAndUpdate(req.params.id, {$set: toUpdate})
+	.then(()=>{
+		return User.findById(req.params.id)
+			.then(data => res.status(200).json(data));
+	})
+	.catch(err => {
+		console.log(err);
+		res.status(400).send(internalMsg)
+	});
 });
 
 router.delete('/:id', (req, res) => {
@@ -99,4 +122,4 @@ router.delete('/:id', (req, res) => {
 });
 
 
-module.exports = router
+module.exports = router;
