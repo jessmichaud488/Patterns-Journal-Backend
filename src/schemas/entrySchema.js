@@ -8,23 +8,28 @@ var entrySchema = mongoose.Schema({
 		required: true
 	},
 
-  hoursSlept: {
+  sleep: {
     type: Number,
     required: true
   },
 
-  entryType: {
+  entry: {
     type: String, 
     required: true
   },
 
-  createdAt: {
+  date: {
     type: Date,
     required: true,
     default: Date.now
   },
 
-  intensityLevel: {
+  mood: {
+    type: String,
+    required: true
+  },
+
+  emotions: {
     type: Number,
     required: true
   }

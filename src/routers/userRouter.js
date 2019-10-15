@@ -68,7 +68,7 @@ router.get('/:id', (req, res) => {
 //create a new user profile/account
 router.post('/', (req, res)=>{
 	//store the required properties in an array
-	const requiredFields = ['email', 'userName', 'password'];
+	const requiredFields = ['email', 'username', 'password'];
 	//use for loop to check if all required properties are in the req body
 	for(let i=0; i<requiredFields.length; i++){
 		const field = requiredFields[i];
@@ -81,7 +81,7 @@ router.post('/', (req, res)=>{
 		}
 	}
   
-  return User.find({userName: req.body.userName})
+  return User.find({username: req.body.username})
     .countDocuments()
     .then(count => {
       if (count > 0) {
@@ -99,7 +99,7 @@ router.post('/', (req, res)=>{
     .then (hash => {
          return	 User.create({
 		email: req.body.email,
-		userName: req.body.userName,
+		username: req.body.username,
 		password: hash
 	})
   })

@@ -9,7 +9,7 @@ const router = express.Router();
 
 const createAuthToken = function(user) {
   return jwt.sign({user}, config.JWT_SECRET, {
-    subject: user.userName,
+    subject: user.username,
     expiresIn: 3000, //config.JWT_EXPIRY,
     algorithm: 'HS256'
   });
@@ -25,11 +25,11 @@ router.post('/login', localAuth, (req, res) => {
   res.json({authToken, userId: userId});
 });
 
-router.post('/signUp', localAuth, (req, res) => {
+/*router.post('/signUp', localAuth, (req, res) => {
   let user = req.user.serialize();
   let userId = user.id.toString();
   res.json({authToken, userId: userId});
-});
+});*/
 
 const jwtAuth = passport.authenticate('jwt', {session: false});
 

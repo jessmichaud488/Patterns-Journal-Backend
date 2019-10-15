@@ -9,7 +9,7 @@ var userSchema = mongoose.Schema({
 		required: true
 	},
 
-	userName: {
+	username: {
 		type: String,
 		required: true
 	},
@@ -17,24 +17,6 @@ var userSchema = mongoose.Schema({
 	password: {
 		type: String,
 		required: true
-	},
-
-	verified: {
-		type: Boolean,
-		required: true,
-		default: false
-	},
-
-	memberSince: {
-		type: Date,
-		required: true,
-		default: Date.now
-	},
-  
-	isActive: {
-		type: Boolean,
-		required: true,
-		default: true
 	}
 });
 
@@ -42,9 +24,7 @@ userSchema.methods.serialize = function() {
   return {
     email: this.email,
     id: this._id,
-    userName: this.userName,
-    verified: this.verified,
-    memberSince: this.memberSince,
+    username: this.username
   };
 };
 
