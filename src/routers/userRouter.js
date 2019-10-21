@@ -66,9 +66,9 @@ router.get('/:id', (req, res) => {
 });
 
 //create a new user profile/account
-router.post('/', (req, res)=>{
+router.post('/signUp', (req, res)=>{
 	//store the required properties in an array
-	const requiredFields = ['email', 'username', 'password'];
+	const requiredFields = ['username', 'password'];
 	//use for loop to check if all required properties are in the req body
 	for(let i=0; i<requiredFields.length; i++){
 		const field = requiredFields[i];
@@ -98,13 +98,13 @@ router.post('/', (req, res)=>{
   })
     .then (hash => {
          return	 User.create({
-		email: req.body.email,
 		username: req.body.username,
 		password: hash
 	})
   })
 	.then(newUser => res.status(201).json(newUser))
   .catch(err => {
+	  console.log('error on Post', err);
       // Forward validation errors on to the client, otherwise give a 500
       // error because something unexpected has happened
       if (err.reason === 'ValidationError') {

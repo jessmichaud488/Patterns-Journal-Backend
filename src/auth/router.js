@@ -18,16 +18,10 @@ const createAuthToken = function(user) {
 const localAuth = passport.authenticate('local', {session: false});  
 router.use(bodyParser.json());
 // The user provides a username and password to login
-router.post('/login', localAuth, (req, res) => {
+router.post('/logIn', localAuth, (req, res) => {
   let user = req.user.serialize();
   let userId = user.id.toString();
   const authToken = createAuthToken(user);
-  res.json({authToken, userId: userId});
-});
-
-router.post('/signUp', (req, res) => {
-  let user = req.user.serialize();
-  let userId = user.id.toString();
   res.json({authToken, userId: userId});
 });
 
