@@ -32,6 +32,7 @@ router.get('/:id', (req, res) => {
 
 //Post new entry
 router.post('/', (req, res)=>{
+	console.log(req.body)
 	const requiredFields = ['title', 'date', 'entry', 'sleep', 'mood', 'emotions'];
 		for(let i=0; i < requiredFields.length; i++){
     		const field = requiredFields[i];
@@ -98,9 +99,9 @@ router.put('/:id', (req, res)=>{
 	}
 	//update the database by finding the id first using the id from req
 	//then set the data to update
-	User.findByIdAndUpdate(req.params.id, {$set: toUpdate})
+	Entry.findByIdAndUpdate(req.params.id, {$set: toUpdate})
 	.then(()=>{
-		return User.findById(req.params.id)
+		return Entry.findById(req.params.id)
 			.then(data => res.status(200).json(data));
 	})
 	.catch(err => {
