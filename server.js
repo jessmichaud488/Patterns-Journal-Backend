@@ -16,6 +16,7 @@ mongoose.Promise = global.Promise;
 
 const { PORT, DATABASE_URL } = require('./config');
 const app = express();
+const path = require('path');
 
 passport.use(localStrategy);
 passport.use(jwtStrategy);
@@ -48,6 +49,13 @@ app.use('/auth', authRouter);
     data: 'rosebud'
   });
 });*/
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+});
 
 app.use('*', (req, res) => {
   return res.status(404).json({ message: 'Not Found' });

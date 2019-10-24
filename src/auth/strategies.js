@@ -16,6 +16,7 @@ const localStrategy = new LocalStrategy((username, password, callback) => {
       user = _user;
       
       if (!user) {
+        console.log('could not find user')
         // Return a rejected promise so we break out of the chain of .thens.
         // Any errors like this will be handled in the catch block.
         return Promise.reject({
@@ -26,6 +27,7 @@ const localStrategy = new LocalStrategy((username, password, callback) => {
       return user.validatePassword(password);
     })
     .then(isValid => {
+      console.log('password invalid')
       if (!isValid) {
         return Promise.reject({
           reason: 'LoginError',
@@ -35,6 +37,7 @@ const localStrategy = new LocalStrategy((username, password, callback) => {
       return callback(null, user);
     })
     .catch(err => {
+      console.log('caught error', err)
       if (err.reason === 'LoginError') {
         return callback(null, false, err);
       }

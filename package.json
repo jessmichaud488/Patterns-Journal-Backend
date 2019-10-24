@@ -4,13 +4,14 @@
   "description": "Backend for patterns journal",
   "main": "api.js",
   "scripts": {
-    "test": "react-scripts test",
-    "start": "node server.js"
+    "start": "node server.js",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "\u0016https://github.com/jessmichaud488/Patterns-Journal-Backend.git"
+    "url": "https://github.com/jessmichaud488/Patterns-Journal-Backend.git"
   },
+  "proxy": "http://localhost:5000",
   "keywords": [
     "Psychology",
     "Mental",
@@ -20,6 +21,7 @@
     "Therapy",
     "Management"
   ],
+  
   "author": "Jessica Michaud",
   "license": "ISC",
   "dependencies": {

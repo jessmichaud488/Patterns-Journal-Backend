@@ -6,13 +6,13 @@ exports.PORT = process.env.PORT || 8080;
 
 exports.DATABASE_URL = process.env.DATABASE_URL ||
                        global.DATABASE_URL ||
-                      'mongodb://localhost/Counseling'; //edit for the name of the db
+                      'mongodb://localhost/Patterns'; //edit for the name of the db
 
 
 exports.JWT_SECRET = 'I love Muffins!'
 
 //for testing
 exports.TEST_DATABASE_URL = process.env.DATABASE_URL ||
-                      'mongodb://localhost/test-Counseling:27017';
+                      'mongodb://localhost/test-Patterns:27017';
 
 exports.JWT_EXPIRY = process.env.JWT_EXPIRY || '60d';
