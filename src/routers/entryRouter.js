@@ -13,7 +13,7 @@ const internalMsg = 'Internal server error occured.';
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
 //view multiple entries whether there is query or not
-router.get('/', (req,res)=>{
+router.get('/', jwtAuth, (req,res)=>{
 	console.log('made it!');
 	Entry.find()
 	.then(data => res.status(200).json(data))
@@ -45,7 +45,7 @@ router.post('/', jwtAuth, (req, res)=>{
     		}
     	}
     //check entry collection first
-	Entry.findOne({title: req.body.title})
+	Entry.findOne({title: req.body.title, userId: req.user.id})
 	.countDocuments()
     .then(count => {
       if (count > 0) {
@@ -58,6 +58,7 @@ router.post('/', jwtAuth, (req, res)=>{
         });
       }
 		return Entry.create({
+			userId: req.user.id,	
 		   title: req.body.title,
 		   entry: req.body.entry,
 		   date: req.body.date,
