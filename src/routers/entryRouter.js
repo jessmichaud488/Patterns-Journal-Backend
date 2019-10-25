@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const moment = require('moment');
 const bodyParser = require('body-parser');
+const passport = require('passport');
 
 //use ES6 promises
 mongoose.Promise = global.Promise;
