@@ -9,6 +9,7 @@ mongoose.Promise = global.Promise;
 
 const {Entry} = require('../schemas/entrySchema');
 const internalMsg = 'Internal server error occured.';
+const jwtAuth = passport.authenticate('jwt', { session: false });
 
 //view multiple entries whether there is query or not
 router.get('/', (req,res)=>{
@@ -21,7 +22,7 @@ router.get('/', (req,res)=>{
 });
 
 //View entries by id
-router.get('/:id', (req, res) => {
+router.get('/:id', jwtAuth, (req, res) => {
 	console.log('find get by id');
 	Entry.findById(req.params.id)
 	.then(data => res.status(200).json(data))
@@ -31,7 +32,7 @@ router.get('/:id', (req, res) => {
 });
 
 //Post new entry
-router.post('/', (req, res)=>{
+router.post('/', jwtAuth, (req, res)=>{
 	console.log(req.body)
 	const requiredFields = ['title', 'date', 'entry', 'sleep', 'mood', 'emotions'];
 		for(let i=0; i < requiredFields.length; i++){
@@ -76,7 +77,7 @@ router.post('/', (req, res)=>{
 })
 });
 
-router.put('/:id', (req, res)=>{
+router.put('/:id', jwtAuth, (req, res)=>{
 	// ensure that the id in the request path and the one in request body match
 	if(!(req.params.id === req.body.id)){
 		const message = `The request path ID ${req.params.id} and request body ID ${req.body.id} should match.`;
@@ -110,7 +111,7 @@ router.put('/:id', (req, res)=>{
 	});
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', jwtAuth, (req, res) => {
 	console.log('made it to delete');
 	Entry.findByIdAndRemove(req.params.id, (err, entry) => {
 		if (err) return res.status(500).send(err);
