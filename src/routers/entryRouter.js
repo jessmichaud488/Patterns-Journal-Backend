@@ -45,7 +45,7 @@ router.post('/', jwtAuth, (req, res)=>{
     		}
     	}
     //check entry collection first
-	Entry.findOne({title: req.body.title, userId: req.user.id})
+	Entry.findOne({title: req.body.title, user_id: req.user.id})
 	.countDocuments()
     .then(count => {
 		console.log('fetch', count)
@@ -60,7 +60,7 @@ router.post('/', jwtAuth, (req, res)=>{
 	  }
 	  console.log(req.user)
 		return Entry.create({
-			userId: req.user.id,	
+			user_id: req.user.id,	
 		   title: req.body.title,
 		   entry: req.body.entry,
 		   date: req.body.date,
