@@ -54,10 +54,10 @@ const jwtStrategy = new JwtStrategy(
     algorithms: ['HS256']
   },
   (payload, done) => {
+    console.log(payload)
     done(null, payload.user);
   }
 );
-console.log(jwtStrategy)
 
 module.exports = { localStrategy, jwtStrategy };
 
