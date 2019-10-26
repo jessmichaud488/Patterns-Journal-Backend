@@ -83,8 +83,8 @@ router.post('/', jwtAuth, (req, res)=>{
 
 router.put('/:id', jwtAuth, (req, res)=>{
 	// ensure that the id in the request path and the one in request body match
-	if(!(req.params.id === req.user.id)){
-		const message = `The request path ID ${req.params.id} and request body ID ${req.user.id} should match.`;
+	if(!(req.params.id === req.body.id)){
+		const message = `The request path ID ${req.params.id} and request body ID ${req.body.id} should match.`;
 		console.error(message);
 		return res.status(400).send(message);
 	}
@@ -105,7 +105,8 @@ router.put('/:id', jwtAuth, (req, res)=>{
 	//update the database by finding the id first using the id from req
 	//then set the data to update
 	Entry.findByIdAndUpdate({_id:req.params.id, user:req.user.id, $set: toUpdate})
-	.then(()=>{
+	.then((updateData)=>{
+		console.log(updateData)
 		return Entry.findById(req.params.id)
 			.then(data => res.status(200).json(data));
 	})
