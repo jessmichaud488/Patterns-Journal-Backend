@@ -3,6 +3,11 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 var entrySchema = mongoose.Schema({
+  user_id: {
+    type: ObjectId,
+    required: true
+  },
+
 	title: {
 		type: String,
 		required: true
