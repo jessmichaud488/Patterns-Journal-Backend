@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
+const { User } = require('./User');
 
 mongoose.Promise = global.Promise;
 
 var entrySchema = mongoose.Schema({
-  user_id: {
-    type: Schema.Types.ObjectId,
+  user: {
+    type: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     required: true
   },
 
