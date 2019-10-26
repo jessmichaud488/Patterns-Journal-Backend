@@ -25,7 +25,7 @@ router.get('/', jwtAuth, (req,res)=>{
 //View entries by id
 router.get('/:id', jwtAuth, (req, res) => {
 	console.log('find get by id');
-	Entry.findById(req.params.id)
+	Entry.find({_id:req.params.id, user:req.user.id})
 	.then(data => res.status(200).json(data))
 	.catch(err => {
 		res.status(500).send(internalMsg);

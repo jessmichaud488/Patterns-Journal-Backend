@@ -4,7 +4,7 @@ mongoose.Promise = global.Promise;
 
 var entrySchema = mongoose.Schema({
   user: {
-    type: Number,
+    type: String,
     required: true
   },
 
