@@ -15,7 +15,7 @@ const jwtAuth = passport.authenticate('jwt', { session: false });
 //view multiple entries whether there is query or not
 router.get('/', jwtAuth, (req,res)=>{
 	console.log('made it!');
-	Entry.find()
+	Entry.find({_id:req.params.id, user:req.user.id})
 	.then(data => res.status(200).json(data))
 	.catch(err => {
 		res.status(500).send(internalMsg);
@@ -45,7 +45,7 @@ router.post('/', jwtAuth, (req, res)=>{
     		}
     	}
     //check entry collection first
-	Entry.findOne({title: req.body.title, user: req.user.id})
+	Entry.find({title: req.body.title, _id:req.params.id, user:req.user.id})
 	.countDocuments()
     .then(count => {
 		console.log('fetch', count)
@@ -104,7 +104,7 @@ router.put('/:id', jwtAuth, (req, res)=>{
 	}
 	//update the database by finding the id first using the id from req
 	//then set the data to update
-	Entry.findByIdAndUpdate(req.params.id, {$set: toUpdate})
+	Entry.findByIdAndUpdate({_id:req.params.id, user:req.user.id, $set: toUpdate})
 	.then(()=>{
 		return Entry.findById(req.params.id)
 			.then(data => res.status(200).json(data));
@@ -117,7 +117,7 @@ router.put('/:id', jwtAuth, (req, res)=>{
 
 router.delete('/:id', jwtAuth, (req, res) => {
 	console.log('made it to delete');
-	Entry.findByIdAndRemove(req.params.id, (err, entry) => {
+	Entry.findByIdAndRemove({_id:req.params.id, user:req.user.id}, (err, entry) => {
 		if (err) return res.status(500).send(err);
 		const response = {
 			message: "Entry successfully deleted",
