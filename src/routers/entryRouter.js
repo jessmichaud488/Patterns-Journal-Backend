@@ -118,7 +118,7 @@ router.put('/:id', jwtAuth, (req, res)=>{
 
 router.delete('/:id', jwtAuth, (req, res) => {
 	console.log('made it to delete');
-	Entry.findByIdAndRemove({_id:req.params.id, user:req.user.id}, (err, entry) => {
+	Entry.update({_id:req.params.id, user:req.user.id}, (err, entry) => {
 		if (err) return res.status(500).send(err);
 		const response = {
 			message: "Entry successfully deleted",
