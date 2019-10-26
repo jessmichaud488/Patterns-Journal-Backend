@@ -48,6 +48,7 @@ router.post('/', jwtAuth, (req, res)=>{
 	Entry.findOne({title: req.body.title, userId: req.user.id})
 	.countDocuments()
     .then(count => {
+		console.log('fetch', count)
       if (count > 0) {
         // There is an existing user with the same entry
         return Promise.reject({
@@ -56,7 +57,8 @@ router.post('/', jwtAuth, (req, res)=>{
           message: 'Entry already exists',
           location: 'entry'
         });
-      }
+	  }
+	  console.log(req.user)
 		return Entry.create({
 			userId: req.user.id,	
 		   title: req.body.title,
@@ -71,7 +73,7 @@ router.post('/', jwtAuth, (req, res)=>{
   .catch(err => {
       // Forward validation errors on to the client, otherwise give a 500
 	  // error because something unexpected has happened
-	  console.log('err =', err);
+	  console.log('fetch err =', err);
       if (err.reason === 'ValidationError') {
         return res.status(err.code).json(err);
       }
