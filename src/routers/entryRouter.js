@@ -45,7 +45,7 @@ router.post('/', jwtAuth, (req, res)=>{
     		}
     	}
     //check entry collection first
-	Entry.find({title: req.body.title, _id:req.params.id, user:req.user.id})
+	Entry.find({title: req.body.title, _id:req.param.id, user:req.user.id})
 	.countDocuments()
     .then(count => {
 		console.log('fetch', count)
@@ -83,8 +83,8 @@ router.post('/', jwtAuth, (req, res)=>{
 
 router.put('/:id', jwtAuth, (req, res)=>{
 	// ensure that the id in the request path and the one in request body match
-	if(!(req.params.id === req.body.id)){
-		const message = `The request path ID ${req.params.id} and request body ID ${req.body.id} should match.`;
+	if(!(req.params.id === req.user.id)){
+		const message = `The request path ID ${req.params.id} and request body ID ${req.user.id} should match.`;
 		console.error(message);
 		return res.status(400).send(message);
 	}
