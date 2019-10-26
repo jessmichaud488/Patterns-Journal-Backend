@@ -106,7 +106,7 @@ router.put('/:id', jwtAuth, (req, res)=>{
 	console.log(toUpdate)
 	//update the database by finding the id first using the id from req
 	//then set the data to update
-	Entry.update({_id:req.params.id, user:req.user.id}, {$set: {toUpdate}}
+	Entry.update({_id:req.params.id, user:req.user.id}, {$set: {toUpdate}})
 	.then((updateData)=>{
 		console.log(updateData)
 		return Entry.findById(req.params.id)
