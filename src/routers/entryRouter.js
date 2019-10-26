@@ -15,7 +15,7 @@ const jwtAuth = passport.authenticate('jwt', { session: false });
 //view multiple entries whether there is query or not
 router.get('/', jwtAuth, (req,res)=>{
 	console.log('made it!');
-	Entry.find({_id:req.params.id, user:req.user.id})
+	Entry.find({user:req.user.id})
 	.then(data => res.status(200).json(data))
 	.catch(err => {
 		res.status(500).send(internalMsg);
