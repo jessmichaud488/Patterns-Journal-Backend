@@ -60,7 +60,7 @@ router.post('/', jwtAuth, (req, res)=>{
 	  }
 	  console.log(req.user)
 		return Entry.create({
-			user_id: req.user.id,	
+		   user_id: req.user.id,	
 		   title: req.body.title,
 		   entry: req.body.entry,
 		   date: req.body.date,
