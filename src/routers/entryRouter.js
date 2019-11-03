@@ -130,5 +130,4 @@ router.delete('/:id', jwtAuth, (req, res) => {
 	});
 });
 
-
 module.exports = router;
