@@ -139,7 +139,6 @@ router.put('/:id', (req, res)=>{
 	//then set the data to update
 	User.hashPassword(req.body.password)
 	.then(hash => {
-		console.log('hash=', hash);
 		User.findByIdAndUpdate(req.params.id, {$set: {password: hash}}, {upsert: true})
 		.then(user=>{
 			if (!user) res.status(404).send('User not found');

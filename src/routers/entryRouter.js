@@ -14,7 +14,6 @@ const jwtAuth = passport.authenticate('jwt', { session: false });
 
 //view multiple entries whether there is query or not
 router.get('/', jwtAuth, (req,res)=>{
-	console.log('made it!');
 	Entry.find({user:req.user.id})
 	.then(data => res.status(200).json(data))
 	.catch(err => {
@@ -24,7 +23,6 @@ router.get('/', jwtAuth, (req,res)=>{
 
 //View entries by id
 router.get('/:id', jwtAuth, (req, res) => {
-	console.log('find get by id');
 	Entry.find({_id:req.params.id, user:req.user.id})
 	.then(data => res.status(200).json(data))
 	.catch(err => {
@@ -119,7 +117,6 @@ router.put('/:id', jwtAuth, (req, res)=>{
 });
 
 router.delete('/:id', jwtAuth, (req, res) => {
-	console.log('made it to delete');
 	Entry.update({_id:req.params.id, user:req.user.id}, (err, entry) => {
 		if (err) return res.status(500).send(err);
 		const response = {
