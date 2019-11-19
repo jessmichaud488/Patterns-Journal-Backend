@@ -25,7 +25,8 @@ var entrySchema = mongoose.Schema({
 
   date: {
     type: String,
-    required: true
+    required: true,
+    default: Date.now
   },
 
   mood: {
