@@ -33,7 +33,7 @@ router.get('/:id', jwtAuth, (req, res) => {
 //Post new entry
 router.post('/', jwtAuth, (req, res)=>{
 	console.log(req.body)
-	const requiredFields = ['title', /*date*/, 'entry', 'sleep', 'mood', 'emotions'];
+	const requiredFields = ['title', 'entry', 'sleep', 'mood', 'emotions'];
 		for(let i=0; i < requiredFields.length; i++){
     		const field = requiredFields[i];
     		if(!(field in req.body)){
@@ -61,7 +61,6 @@ router.post('/', jwtAuth, (req, res)=>{
 		   user: req.user.id,	
 		   title: req.body.title,
 		   entry: req.body.entry,
-		   //date: req.body.date,
 		   sleep: req.body.sleep,
 		   mood: req.body.mood,
 		   emotions: req.body.emotions
@@ -90,7 +89,7 @@ router.put('/:id', jwtAuth, (req, res)=>{
 	//we need something to hold what the updated data should be
 	const toUpdate = {};
 	//properties that client can update
-	const canBeUpdated = ['title', /*'date'*/, 'entry', 'sleep', 'mood', 'emotions'];
+	const canBeUpdated = ['title', 'entry', 'sleep', 'mood', 'emotions'];
 	//loop through the properties that can be updated
 	//check if client sent in updated data for those
 	for(let i=0; i<canBeUpdated.length;i++){

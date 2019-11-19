@@ -23,11 +23,6 @@ var entrySchema = mongoose.Schema({
     required: true
   },
 
-  /*date: {
-    type: String,
-    required: true
-  },*/
-
   mood: {
     type: String,
     required: true
