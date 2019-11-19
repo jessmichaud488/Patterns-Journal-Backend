@@ -23,11 +23,10 @@ var entrySchema = mongoose.Schema({
     required: true
   },
 
-  date: {
+  /*date: {
     type: String,
-    required: true,
-    default: Date.now
-  },
+    required: true
+  },*/
 
   mood: {
     type: String,
