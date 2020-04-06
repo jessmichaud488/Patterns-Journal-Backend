@@ -1,5 +1,5 @@
 <h1>P A T T E R N S  J O U R N A L</h1>
-<P>Front end code can be found at: https://github.com/jessmichaud488/React-Capstone</p>
+<P>Front end code can be found at: https://github.com/jessmichaud488/Patterns-Journal-Frontend</p>
 
 ![HomePage](https://github.com/jessmichaud488/React-Capstone/blob/master/src/images/HomePage.png)
 
