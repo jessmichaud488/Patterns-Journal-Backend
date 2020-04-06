@@ -1,13 +1,15 @@
 <h1>P A T T E R N S  J O U R N A L</h1>
 <P>Front end code can be found at: https://github.com/jessmichaud488/Patterns-Journal-Frontend</p>
 
-![HomePage](https://github.com/jessmichaud488/React-Capstone/src/images/HomePage.png)
+![HomePage](https://github.com/jessmichaud488/Patterns-Journal-Frontend/blob/master/src/images/HomePage.png)
 
-![LogIn Page](https://github.com/jessmichaud488/React-Capstone/src/images/LogIn.png)
+![LogIn Page](
+https://github.com/jessmichaud488/Patterns-Journal-Frontend/blob/master/src/images/NewEntry.png)
 
-![New Entry](https://github.com/jessmichaud488/React-Capstone/src/images/NewEntry.png)
+![New Entry](https://github.com/jessmichaud488/Patterns-Journal-Frontend/blob/master/src/images/LogIn.png
+)
 
-![EditEntry](https://github.com/jessmichaud488/React-Capstone/src/images/EditEntry.png)
+![EditEntry](https://github.com/jessmichaud488/Patterns-Journal-Frontend/blob/master/src/images/EditEntry.png)
 
 <H2>APPLICATION WEBSITE</h2>
 <p>A working prototype of this app can be viewed at <a href="https://stark-lowlands-96685.herokuapp.com/">https://stark-lowlands-96685.herokuapp.com/</a></p>
